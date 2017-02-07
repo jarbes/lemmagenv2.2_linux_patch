@@ -1,0 +1,86 @@
+diff -uarN ./v2.2/lemmagen/binary/linux/object/README ./save/v2.2_patched/lemmagen/binary/linux/object/README
+--- ./v2.2/lemmagen/binary/linux/object/README	1970-01-01 01:00:00.000000000 +0100
++++ ./save/v2.2_patched/lemmagen/binary/linux/object/README	2017-02-07 11:55:14.278235491 +0100
+@@ -0,0 +1 @@
++README
+diff -uarN ./v2.2/lemmagen/project/makefile/Makefile ./save/v2.2_patched/lemmagen/project/makefile/Makefile
+--- ./v2.2/lemmagen/project/makefile/Makefile	2008-04-28 14:34:30.000000000 +0200
++++ ./save/v2.2_patched/lemmagen/project/makefile/Makefile	2017-02-07 11:34:15.662175448 +0100
+@@ -74,8 +74,8 @@
+ # add -w: inhibit all warning messages
+ # add -O3: optimization
+ DEBUG=
+-OPT=-O3
+-GPP=g++ $(DEBUG) -w $(OPT) 
++OPT=-O3 -fpermissive
++GPP=g++-4.9 $(DEBUG) -w $(OPT) 
+ 
+ #####################################################################
+ 
+@@ -213,7 +213,7 @@
+ 	               $(OBJPATH)/InterXval.o
+ 	$(GPP) -c -o $@ $<
+ 
+-$(OBJPATH)/InterXval.o : $(INTPATH)/InterXval.cpp \
++$(OBJPATH)/InterXval.o : $(INTPATH)/InterXVal.cpp \
+ 	                 $(INTPATH)/Interface.h \
+ 	                 $(OBJPATH)/Xval.o \
+ 	                 $(OBJPATH)/CmdLineParser.o
+diff -uarN ./v2.2/lemmagen/source/header/MiscLib.h ./save/v2.2_patched/lemmagen/source/header/MiscLib.h
+--- ./v2.2/lemmagen/source/header/MiscLib.h	2008-04-17 01:57:00.000000000 +0200
++++ ./save/v2.2_patched/lemmagen/source/header/MiscLib.h	2017-02-07 11:29:33.154161971 +0100
+@@ -23,6 +23,7 @@
+ //#include <crtdbg.h>
+ #include <cstdlib>
+ #include <new>
++#include <climits>
+ 
+ #include <utility>
+ #include <ctime>
+@@ -30,6 +31,7 @@
+ #include <float.h>
+ 
+ #include <string>
++#include <cstring>
+ 
+ #include <iostream>
+ #include <iomanip>
+@@ -135,7 +137,7 @@
+ //container for more acurate random functios
+ class Rand {
+ private:
+-	static const int  RAND_MAX_REAL = (RAND_MAX+1);
++	static const int  RAND_MAX_REAL = RAND_MAX;
+ 
+ public:
+ 	static double nextDouble();
+diff -uarN ./v2.2/lemmagen/source/header/RdrLemmatizer.h ./save/v2.2_patched/lemmagen/source/header/RdrLemmatizer.h
+--- ./v2.2/lemmagen/source/header/RdrLemmatizer.h	2008-03-19 16:20:42.000000000 +0100
++++ ./save/v2.2_patched/lemmagen/source/header/RdrLemmatizer.h	2017-02-07 11:30:08.666163665 +0100
+@@ -26,6 +26,7 @@
+ #include <fstream>
+ #include <iomanip>
+ #include <sstream>
++#include <cstring>
+ 
+ #ifndef AllInOneFile
+ 	#include "RdrLemmData.h"
+@@ -127,4 +128,4 @@
+ 
+ 
+ 
+-};
+\ Chybí znak konce řádku na konci souboru
++};
+diff -uarN ./v2.2/lemmagen/source/header/RdrScanner.h ./save/v2.2_patched/lemmagen/source/header/RdrScanner.h
+--- ./v2.2/lemmagen/source/header/RdrScanner.h	2007-11-30 16:29:58.000000000 +0100
++++ ./save/v2.2_patched/lemmagen/source/header/RdrScanner.h	2017-02-07 11:30:40.162165168 +0100
+@@ -18,6 +18,8 @@
+ ******************************************************************************/
+ #pragma once
+ 
++#include <typeinfo>
++
+ #include "RdrLexer.h"
+ 
+ class RdrScanner:  private RdrParser, private RdrLexer{

@@ -1,0 +1,9 @@
+1) wget -O LemmaGen_v2.2.zip http://lemmatise.ijs.si/Download/File/Software%23LemmaGen_v2.2.zip
+2) unzip LemmaGen_v2.2.zip
+
+3) cd v2.2 
+4) patch -p2 -i lemmagen_v2.2_linux_patch.diff
+
+5) cd v2.2/lemmagen/project
+6) make
+
